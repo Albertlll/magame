@@ -2,6 +2,7 @@ from constants import *
 from groups import *
 from grass import Grass
 from tree import Tree
+from mushrooms import TwoMushrooms, OneMushroom
 
 
 def load_level(file):
@@ -28,6 +29,26 @@ def gen_map():
 
                 all_sprites.add(grass_sprite)
                 all_sprites.add(tree_sprite)
+            elif level[i][z] == TWO_MUSHROOMS:
+                mushroom_sprite = TwoMushrooms((i * 32, z * 32))
+                grass_sprite = Grass((i * 32, z * 32))
+
+                decor_group.add(mushroom_sprite)
+
+                map_sprites.add(grass_sprite)
+                all_sprites.add(grass_sprite)
+                all_sprites.add(mushroom_sprite)
+
+            elif level[i][z] == ONE_MUSHROOM:
+                mushroom_sprite = OneMushroom((i * 32, z * 32))
+                grass_sprite = Grass((i * 32, z * 32))
+
+                decor_group.add(mushroom_sprite)
+
+                map_sprites.add(grass_sprite)
+                all_sprites.add(grass_sprite)
+                all_sprites.add(mushroom_sprite)
+
             #
             # else:
             #     road_sprite = Road((i * 32, z * 32))
@@ -35,11 +56,13 @@ def gen_map():
             #     all_sprites.add(road_sprite)
 
 
-def add_forest():
-    for i in range(0, len(level), 2):
-        for j in range(0, 14, 2):
-            level[i][j] = TREE
-            level[i][-j] = TREE
-            #
-            level[j][i] = TREE
-            level[-j][i] = TREE
+# def add_forest():
+#     for i in range(0, len(level), 2):
+#         for j in range(0, 14, 2):
+#             level[i][j] = TREE
+#             level[i][-j] = TREE
+#             #
+#             level[j][i] = TREE
+#             level[-j][i] = TREE
+#     for i in level:
+#         print(i)
