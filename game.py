@@ -10,7 +10,9 @@ from draw_UI import *
 
 
 def game():
+    camera_to_right = 1
     running = True
+    shaking = False
 
     to_up = False
     to_left = False
@@ -60,12 +62,15 @@ def game():
                 attacking = False
 
         camera.update(wizard)
+        if shaking:
+            camera.dx += 10 * camera_to_right
         for i in all_sprites:
             camera.apply(i)
 
         wizard.update(to_right, to_left, to_up, to_down, pos, attacking)
         for enemy in enemy_bots:
             enemy.update()
+        camera_to_right *= -1
 
         map_sprites.draw(SCREEN)
         #
