@@ -1,8 +1,12 @@
 from constants import *
 from camera import camera
 from wizard import wizard
+from enemy import enemy_bots
 from groups import *
-from map_generation import load_level, gen_map
+from map_generation import *
+import pygame
+from load_image import load_image
+from draw_UI import *
 
 
 def game():
@@ -12,10 +16,12 @@ def game():
     to_left = False
     to_right = False
     to_down = False
-
+    xp = 100
     load_level("data/level.txt")
     # add_forest()
     gen_map()
+    gen_mana()
+    gen_rubins()
     # print(len(level))
     # for i in level:
     #     print(i)
@@ -58,17 +64,26 @@ def game():
             camera.apply(i)
 
         wizard.update(to_right, to_left, to_up, to_down, pos, attacking)
+        for enemy in enemy_bots:
+            enemy.update()
+
         map_sprites.draw(SCREEN)
         #
         # for i in forest_group:
         #     i.draw_rect()ф
         # print(len(forest_group))
         decor_group.draw(SCREEN)
+        mana_group.draw(SCREEN)
+        rubins_group.draw(SCREEN)
         player_group.draw(SCREEN)
+        enemy_group.draw(SCREEN)
+        bullets_group.draw(SCREEN)
         # all_sprites.draw(screen)
         # wizard.draw_healbar()
-        forest_group.draw(SCREEN)
 
+        forest_group.draw(SCREEN)
+        draw_lives(xp)
+        draw_mana(wizard.get_mana())
         pygame.display.flip()
         clock.tick(FPS)
 

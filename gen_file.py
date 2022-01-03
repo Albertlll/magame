@@ -7,7 +7,7 @@ for i in range(100):
         if (i >= 100 - 11 or i <= 11 or j >= 100 - 11 or j <= 11) and i % 2 != 0 and j % 2 != 0:
             fi.write("I")
         else:
-            ran = randint(0, 10)
+            ran = randint(0, 150)
             print(ran)
             if ran == 2:
                 fi.write("m")
