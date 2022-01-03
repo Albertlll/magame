@@ -29,3 +29,11 @@ FONT_SIZE_PARAM = 30
 
 BTN_SIZE = (200, 100)
 SIGHT = '*'
+
+
+FIREBALL = {
+    "class": None,
+    "name": "Огненный шар ",
+    "damage": 20,
+    "speed": 1200 / FPS
+}
