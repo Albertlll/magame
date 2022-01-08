@@ -2,44 +2,32 @@ from constants import *
 from button import Button
 import pygame
 from terminate import terminate
-from start_menu import start_menu
-import game
-from wizard import wizard
-from map_generation import *
 
 
 def end_menu(win):
+    pygame.mixer.music.stop()
+    pygame.mixer.music.load('data/to-be-continued.mp3')
+    pygame.mixer.music.set_volume(300)
+    pygame.mixer.music.play(-1)
     SCREEN.fill('black')
-    game_over_font = pygame.font.Font('data/Font.ttf', 100)
+    font = pygame.font.Font('data/Font.ttf', 80)
     if win:
-        text = game_over_font.render('Вы выиграли!!!', True, 'white')
+        text = font.render('Вы победили!', True, 'white')
     else:
-        text = game_over_font.render('Вы проиграли :(', True, 'white')
-    SCREEN.blit(text, (50, 0))
-    btns = [Button(BTN_SIZE, (400, 150), 'ИГРАТЬ СНОВА', 0), Button(BTN_SIZE, (400, 270), 'МЕНЮ', 1),
-            Button(BTN_SIZE, (400, 390), 'ВЫХОД', 2)]
+        text = font.render('Вы проиграли :(', True, 'white')
+    SCREEN.blit(text, text.get_rect(center=(WINDOW_WIGHT * 0.5, WINDOW_HEIGHT * 0.5)))
+    btn = Button(BTN_SIZE, (225, 500), 'ВЫХОД', 0)
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 terminate()
             if event.type == pygame.MOUSEMOTION:
-                for btn in btns:
-                    btn.active_control(event.pos)
+                btn.active_control(event.pos)
             if event.type == pygame.MOUSEBUTTONDOWN:
-                for btn in btns:
-                    if btn.cursor_in_btn(event.pos):
-                        if btn.index == 0:
-                            running = False
-                            game.clear_all_groups()
-                            wizard.kill()
-                            game.game()
-                        elif btn.index == 1:
-                            running = False
-                            start_menu()
-                        elif btn.index == 2:
-                            terminate()
-        for btn in btns:
-            btn.draw()
+                if btn.cursor_in_btn(event.pos):
+                    SOUND_BTN_CLICKED.play()
+                    terminate()
+        btn.draw()
         pygame.display.flip()
         clock.tick(FPS)

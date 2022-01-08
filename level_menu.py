@@ -2,15 +2,15 @@ from constants import *
 from button import Button
 import pygame
 from terminate import terminate
-import level_menu
-import sound_menu
+import start_menu
+from game import game
 
 
-def start_menu():
+def level_menu():
     bg = pygame.transform.scale(load_image('bg.png'), (WINDOW_WIGHT, WINDOW_HEIGHT))
     SCREEN.blit(bg, (0, 0))
-    btns = [Button(BTN_SIZE, (400, 150), 'Играть', 0), Button(BTN_SIZE, (400, 270), 'Звук', 1),
-            Button(BTN_SIZE, (400, 390), 'Выход', 2)]
+    btns = [Button(BTN_SIZE, (400, 150), 'ЛЕТО', 0), Button(BTN_SIZE, (400, 270), 'ЗИМА', 1),
+            Button(BTN_SIZE, (400, 390), 'ОСЕНЬ', 2), Button(BTN_SIZE, (400, 510), 'ВЕРНУТЬСЯ', 3)]
     running = True
     while running:
         for event in pygame.event.get():
@@ -23,14 +23,16 @@ def start_menu():
                 for btn in btns:
                     if btn.cursor_in_btn(event.pos):
                         SOUND_BTN_CLICKED.play()
+                        running = False
                         if btn.index == 0:
-                            running = False
+                            game(SUMMER)
                         elif btn.index == 1:
-                            sound_menu.sound_menu()
+                            game(WINTER)
                         elif btn.index == 2:
-                            terminate()
+                            game(AUTUMN)
+                        elif btn.index == 3:
+                            start_menu.start_menu()
         for btn in btns:
             btn.draw()
         pygame.display.flip()
         clock.tick(FPS)
-    level_menu.level_menu()
